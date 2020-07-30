@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
+import Button from '../../../components/Button';
 
 function CadastroCategoria() {
   const valoresIniciais = {
@@ -22,11 +23,26 @@ function CadastroCategoria() {
   }
 
   function handleChange(infosDoEvento) {
-      setValue(
+    setValue(
       infosDoEvento.target.getAttribute('name'),
       infosDoEvento.target.value
     );
   }
+
+  useEffect(() => {
+    if (window.location.href.includes('localhost')) {
+      const URL = 'http://localhost:8080/categorias';
+      fetch(URL)
+        .then(async (respostaDoServer) => {
+          if (respostaDoServer.ok) {
+            const resposta = await respostaDoServer.json();
+            setCategorias(resposta);
+            return;
+          }
+          throw new Error('Não foi possível pegar os dados');
+        })
+    }
+  }, []);
 
   return (
     <PageDefault>
@@ -52,12 +68,12 @@ function CadastroCategoria() {
 
         <FormField
           label="Descrição"
-          type="????"
+          type="textarea"
           name="descricao"
           value={values.descricao}
           onChange={handleChange}
-          />
-          {/*         <div>
+        />
+        {/*         <div>
           <label>
             Descrição:
          <textarea
@@ -70,13 +86,13 @@ function CadastroCategoria() {
         </div> */}
 
         <FormField
-        label="Cor"
-        type="color"
-        name="cor"
-        value={values.cor}
-        onChange={handleChange}
+          label="Cor"
+          type="color"
+          name="cor"
+          value={values.cor}
+          onChange={handleChange}
         />
-{/*         <div>
+        {/*         <div>
           <label>
             Cor:
          <input
@@ -88,9 +104,9 @@ function CadastroCategoria() {
           </label>
         </div> */}
 
-        <button>
+        <Button>
           Cadastrar
-        </button>
+        </Button>
       </form>
 
 
