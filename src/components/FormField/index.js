@@ -58,45 +58,46 @@ const Input = styled.input`
   &:focus:not([type='color']) + ${Label.Text} {
     transform: scale(.6) translateY(-10px);
   }
-  ${({ value }) => {
-    const hasValue = value.length > 0;
-    return hasValue && css`
-        &:not([type='color']) + ${Label.Text} {
-          transform: scale(.6) translateY(-10px);
-        }
-      `;
-  }
+  ${({ hasValue }) => hasValue && css`
+      &:not([type='color']) + span {
+        transform: scale(.6) translateY(-10);
+      }
+  `
 }
 `;
 
 function FormField({
   label, type, name, value, onChange,
 }) {
+  const fieldId = `id_${name}`;
   const isTypeTextArea = type === 'textarea';
   const tag = isTypeTextArea ? 'textarea' : 'input';
+  const hasValue = value.length;
 
   return (
     <FormFieldWrapper>
-      <Label>
         <Input
           as={tag}
+          id={fieldId}
           type={type}
           value={value}
           name={name}
+          hasValue={hasValue}
           onChange={onChange}
         />
-        <Label.Text>
+        <Label.Text htmlFor={fieldId}>
           {label}
           :
         </Label.Text>
-      </Label>
+
     </FormFieldWrapper>
   );
 }
 
 FormField.defaultProps = {
-  type: 'text',
-  value: '',
+  type: 'text',
+  value: '',
+  onChange: () => { },
 };
 
 FormField.propTypes = {

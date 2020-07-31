@@ -2,7 +2,7 @@
   "categorias": [
     {
       "id": 1,
-      "titulo": "Front End",
+      "nome": "Front End",
       "cor": "#6BD1FF",
       "link_extra": {
         "text": "Formação de Front End na Alura",
@@ -11,7 +11,7 @@
     },
     {
       "id": 2,
-      "titulo": "oi eu sou goku",
+      "nome": "oi eu sou goku",
       "cor": "#00C86F",
       "link_extra": {
         "text": "Cursos de Back End na Alura",

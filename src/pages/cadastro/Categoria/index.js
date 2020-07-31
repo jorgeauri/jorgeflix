@@ -30,18 +30,16 @@ function CadastroCategoria() {
   }
 
   useEffect(() => {
-    if (window.location.href.includes('localhost')) {
-      const URL = 'https://jorgeflix.herokuapp.com/categorias'; 
-      fetch(URL)
-        .then(async (respostaDoServer) => {
-          if (respostaDoServer.ok) {
-            const resposta = await respostaDoServer.json();
-            setCategorias(resposta);
-            return;
-          }
-          throw new Error('Não foi possível pegar os dados');
-        })
-    }
+
+    const URL = 'https://jorgeflix.herokuapp.com/categorias';
+    fetch(URL)
+      .then(async (respostaDoServer) => {
+        const resposta = await respostaDoServer.json();
+        setCategorias([
+          ...resposta,
+        ]);
+      });
+
   }, []);
 
   return (
@@ -73,17 +71,6 @@ function CadastroCategoria() {
           value={values.descricao}
           onChange={handleChange}
         />
-        {/*         <div>
-          <label>
-            Descrição:
-         <textarea
-              type="text"
-              value={values.descricao}
-              name="descricao"
-              onChange={handleChange}
-            />
-          </label>
-        </div> */}
 
         <FormField
           label="Cor"
@@ -92,29 +79,23 @@ function CadastroCategoria() {
           value={values.cor}
           onChange={handleChange}
         />
-        {/*         <div>
-          <label>
-            Cor:
-         <input
-              type="color"
-              value={values.cor}
-              name="cor"
-              onChange={handleChange}
-            />
-          </label>
-        </div> */}
 
         <Button>
           Cadastrar
         </Button>
       </form>
 
+      {categorias.length === 0 && (
+        <div>
+          Carregando...
+        </div>
+      )}
+
 
       <ul>
-        {categorias.map((categoria, indice) => {
+        {categorias.map((categoria) => {
           return (
-            <li key={`${categoria}${indice}`}>
-              {categoria.titulo}
+            <li key={`${categoria.nome}`}>
               {categoria.nome}
             </li>
           )
@@ -128,4 +109,4 @@ function CadastroCategoria() {
   )
 }
 
-export default CadastroCategoria
+export default CadastroCategoria;
