@@ -40,6 +40,18 @@
         "text": "Formação de Jogos na Alura",
         "url": "https://www.alura.com.br/cursos-online-front-end"
       }
+    },
+    {
+      "titulo": "Musicas",
+      "cor": "#11eeeb",
+      "descricao": "Musicas",
+      "id": 13
+    },
+    {
+      "titulo": "eae",
+      "cor": "#9e0cbb",
+      "descricao": "assdaa",
+      "id": 14
     }
   ],
   "videos": [
@@ -204,6 +216,18 @@
       "url": "https://www.youtube.com/watch?v=omQu1s5bxSo",
       "categoriaId": 5,
       "id": 27
+    },
+    {
+      "titulo": "teste",
+      "url": "https://www.youtube.com/watch?v=ZyZQenE4y_I",
+      "categoriaId": 13,
+      "id": 28
+    },
+    {
+      "titulo": "z",
+      "url": "https://www.youtube.com/watch?v=pha2f9VoTJ4",
+      "categoriaId": 13,
+      "id": 29
     }
   ]
 }

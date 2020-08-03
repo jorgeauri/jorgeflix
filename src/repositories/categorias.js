@@ -26,7 +26,32 @@ function getAllWithVideos() {
     });
 }
 
+async function deleteCategory() {
+  await fetch(`${URL_CATEGORIES}`, {
+    method: 'DELETE',
+  })
+}
+
+function create(objCategory) {
+  return fetch(URL_CATEGORIES, {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify(objCategory),
+  }).then(async (respostaDoServer) => {
+    if (respostaDoServer.ok) {
+      const response = await respostaDoServer.json()
+      return response
+    }
+
+    throw new Error('Não foi possível cadastrar os dados')
+  })
+}
+
 export default {
     getAllWithVideos,
     getAll,
+    deleteCategory,
+    create,
 };

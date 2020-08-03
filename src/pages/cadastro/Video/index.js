@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import useForm from '../../../hooks/useForm';
@@ -6,15 +7,16 @@ import FormField from '../../../components/FormField';
 import Button from '../../../components/Button';
 import videosRepository from '../../../repositories/videos';
 import categoriasRepository from '../../../repositories/categorias';
+import { ToastContainer } from 'react-toastify';
 
 function CadastroVideo() {
   const history = useHistory();
   const [categorias, setCategorias] = useState([]);
   const categoryTitles = categorias.map(({ titulo }) => titulo);
-  const { handleChange, values } = useForm({
-    //titulo: 'Video padrão',
-    //url: 'https://www.youtube.com/watch?v=jOAU81jdi-c',
-    //categoria: 'Front End',
+  const { handleChange, values, clearForm } = useForm({
+    titulo: '',
+    url: '',
+    categoria: '',
   });
 
   useEffect(() => {
@@ -25,11 +27,37 @@ function CadastroVideo() {
       });
   }, []);
 
+  function handleSubmit(event) {
+    event.preventDefault()
+    // alert('Video Cadastrado com sucesso !!!');
+    const categoriaEscolhida = categorias.find((categoria) => {
+      return categoria.titulo === values.categoria
+    })
+    videosRepository
+      .create({
+        titulo: values.titulo,
+        url: values.url,
+        categoriaId: categoriaEscolhida.id,
+      })
+      .then(() => {
+        history.push('/')
+      //  window.alert('Video cadastrado com sucesso!');
+      })
+  }
+
+  function handleClear(event) {
+    event.preventDefault()
+    clearForm()
+  }
+
+  
   return (
     <PageDefault>
-      <h1>Cadastro de Vídeo</h1>
 
-      <form onSubmit={(event) => {
+      <form onSubmit={handleSubmit}>
+        <h1>Cadastro de Video</h1>
+
+        {/* <form onSubmit={(event) => {
         event.preventDefault();
         //alert('video cadastrado com sucesso');
 
@@ -43,11 +71,10 @@ function CadastroVideo() {
           categoriaId: categoriaEscolhida.id,
         })
           .then(() => {
-            console.log('Cadastrou com sucesso!');
             history.push('/');
           });
-      }}
-      >
+      }} */}
+
         <FormField
           label="Título do Vídeo"
           name="titulo"
@@ -70,16 +97,53 @@ function CadastroVideo() {
           suggestions={categoryTitles}
         />
 
-        <Button type="submit">
-          Cadastrar
-        </Button>
-      </form>
+        <ButtonCategory>
+          <Button type="submit" className="btn-salvar">Confirmar</Button>
+          <Button className="btn-limpar" onClick={handleClear}>Limpar</Button>
+          <Button className="btn-cad" type="button"><Link to="/cadastro/categoria" > Nova categoria </Link></Button>
+          <Button className="btn-home" type="button"><Link to="/"> Home </Link></Button>
 
-      <Link to="/cadastro/categoria">
+        </ButtonCategory>
+      </form>
+      <ToastContainer />
+      {/* <Link to="/cadastro/categoria">
         Cadastrar Categoria
-        </Link>
+        </Link> */}
     </PageDefault>
   );
 }
 
 export default CadastroVideo;
+
+const ButtonCategory = styled.div`
+  .btn-salvar {
+    background: var(--primary);
+    width: 180px;
+    height: 54px;
+    border: none;
+    margin: 5px 15px 20px 0;
+  }
+  .btn-limpar {
+    background: var(--blackLighter);
+    width: 180px;
+    height: 54px;
+    border: none;
+    margin: 5px 15px 20px 0;
+  }
+  .btn-home {
+    background: grey;
+    width: 180px;
+    height: 54px;
+    border: none;
+    margin: 5px 15px 20px 0;
+  }
+  .btn-cad {
+    text-align: center !important;
+    background: royalblue;
+    width: 180px;
+    height: 54px;
+    border: none;
+    margin: 5px 15px 20px 0;
+  }
+ 
+`
